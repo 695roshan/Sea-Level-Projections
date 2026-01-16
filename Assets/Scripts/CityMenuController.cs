@@ -1,0 +1,251 @@
+// using System.Collections.Generic;
+// using System.IO;
+// using System.Linq;
+// using UnityEngine;
+// using UnityEngine.UI;
+// using CesiumForUnity;
+
+// public class CityMenuController : MonoBehaviour
+// {
+//     [Header("Cesium Components")]
+//     public CesiumGeoreference georeference;
+
+//     [Header("Year UI")]
+//     public Slider yearSlider;
+//     public Text yearText;  // optional, set in Inspector
+
+//     // Struct to hold all needed values per row
+//     private struct CityYearData
+//     {
+//         public double lat;
+//         public double lon;
+//         public double seaLevel;
+//     }
+
+//     // Dictionary: city name → year → {lat,lon,sea}
+//     private Dictionary<string, Dictionary<int, CityYearData>> db =
+//         new Dictionary<string, Dictionary<int, CityYearData>>();
+
+//     [System.Serializable]
+//     public class CityTarget
+//     {
+//         public string name;
+//         public Button button;
+//     }
+
+//     [Header("Cities (names must match CSV)")]
+//     public CityTarget newYork;
+//     public CityTarget mumbai;
+//     public CityTarget venice;
+//     public CityTarget sanFrancisco;
+
+//     private void Awake()
+//     {
+//         LoadCityCSV();
+//         SetupCityButtons();
+
+//         if (yearSlider != null)
+//         {
+//             yearSlider.onValueChanged.AddListener(OnYearChanged);
+//             OnYearChanged(yearSlider.value*10);
+//         }
+//     }
+
+//     // ---------------- CSV LOAD ----------------
+//     private void LoadCityCSV()
+//     {
+//         string path = Path.Combine(Application.streamingAssetsPath, "sea_level_change_median_values.csv");
+
+//         if (!File.Exists(path))
+//         {
+//             Debug.LogError("CSV not found: " + path);
+//             return;
+//         }
+
+//         var lines = File.ReadAllLines(path).Skip(1);
+
+//         foreach (var line in lines)
+//         {
+//             var cols = line.Split(',');
+
+//             string name = cols[0];
+//             double lat = double.Parse(cols[1]);
+//             double lon = double.Parse(cols[2]);
+//             int year = int.Parse(cols[3]);
+//             double seaLevelMM = double.Parse(cols[4]);  // in your file col 4 is sea level
+//             double seaLevelMeters = seaLevelMM / 1000.0;
+
+//             if (!db.ContainsKey(name))
+//             {
+//                 db[name] = new Dictionary<int, CityYearData>();
+//             }
+
+//             db[name][year] = new CityYearData
+//             {
+//                 lat = lat,
+//                 lon = lon,
+//                 seaLevel = seaLevelMeters
+//             };
+//         }
+
+//         Debug.Log($"Loaded CSV with {db.Count} cities and year slices.");
+//     }
+
+//     // --------------- BUTTON SETUP ----------------
+//     private void SetupCityButtons()
+//     {
+//         SetupCityButton(newYork);
+//         SetupCityButton(mumbai);
+//         SetupCityButton(venice);
+//         SetupCityButton(sanFrancisco);
+//     }
+
+//     private void SetupCityButton(CityTarget city)
+//     {
+//         if (city.button == null) return;
+
+//         city.button.onClick.RemoveAllListeners();
+//         city.button.onClick.AddListener(() => TeleportTo(city.name));
+//     }
+
+//     // ---------------- TELEPORT ----------------
+//     private void TeleportTo(string cityName)
+//     {
+//         int selectedYear = Mathf.RoundToInt(yearSlider.value*10);
+
+//         if (!db.ContainsKey(cityName) || !db[cityName].ContainsKey(selectedYear))
+//         {
+//             Debug.LogError($"No data for {cityName} in {selectedYear}");
+//             return;
+//         }
+
+//         var data = db[cityName][selectedYear];
+
+//         georeference.SetOriginLongitudeLatitudeHeight(
+//             data.lon,
+//             data.lat,
+//             50.0 // still fixed height
+//         );
+
+//         Debug.Log($"Moved to {cityName} ({selectedYear}) lat:{data.lat} lon:{data.lon} sea:{data.seaLevel}m");
+//     }
+
+//     // -------------- UI UPDATE ----------------
+//     private void OnYearChanged(float value)
+//     {
+//         if (yearText != null)
+//         {
+//             yearText.text = Mathf.RoundToInt(value).ToString();
+//         }
+//     }
+// }
+
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+using CesiumForUnity;
+
+public class CityMenuController : MonoBehaviour
+{
+    [Header("Cesium Components")]
+    public CesiumGeoreference georeference;
+
+    [Header("UI Elements")]
+    public TMP_Dropdown cityDropdown;
+    public Slider yearSlider;
+    public TextMeshProUGUI yearText;  
+    public Button goButton;
+
+    private Dictionary<string, Dictionary<int, Data>> db =
+        new Dictionary<string, Dictionary<int, Data>>();
+
+    private struct Data
+    {
+        public double lat;
+        public double lon;
+        public double sea;
+    }
+
+    private void Awake()
+    {
+        LoadCityCSV();
+        PopulateDropdown();
+
+        yearSlider.onValueChanged.AddListener(OnYearChanged);
+        goButton.onClick.AddListener(OnGoClicked);
+
+        OnYearChanged(yearSlider.value*10);
+    }
+
+    // ---------------- CSV ----------------
+    private void LoadCityCSV()
+    {
+        string path = Path.Combine(Application.streamingAssetsPath, "sea_level_change_median_values.csv");
+        if (!File.Exists(path))
+        {
+            Debug.LogError("CSV not found: " + path);
+            return;
+        }
+
+        var lines = File.ReadAllLines(path).Skip(1);
+
+        foreach (var line in lines)
+        {
+            var cols = line.Split(',');
+
+            string name = cols[0].Trim();
+            double lat = double.Parse(cols[1]);
+            double lon = double.Parse(cols[2]);
+            int year = int.Parse(cols[3]);
+            double seaMM = double.Parse(cols[4]);
+            double seaMeters = seaMM / 1000.0;
+
+            if (!db.ContainsKey(name))
+                db[name] = new Dictionary<int, Data>();
+
+            db[name][year] = new Data { lat = lat, lon = lon, sea = seaMeters };
+        }
+
+        Debug.Log($"Loaded {db.Count} cities.");
+    }
+
+    // ---------------- UI BUILD ----------------
+    private void PopulateDropdown()
+    {
+        var cityNames = db.Keys.ToList();
+        cityDropdown.ClearOptions();
+        cityDropdown.AddOptions(cityNames);
+    }
+
+    private void OnYearChanged(float value)
+    {
+        if (yearText != null)
+            yearText.text = Mathf.RoundToInt(value).ToString();
+    }
+
+    // ---------------- TELEPORT ----------------
+    private void OnGoClicked()
+    {
+        string city = cityDropdown.options[cityDropdown.value].text;
+        int year = Mathf.RoundToInt(yearSlider.value*10);
+
+        if (!db.ContainsKey(city) || !db[city].ContainsKey(year))
+        {
+            Debug.LogError($"No data for {city} in {year}");
+            return;
+        }
+
+        var d = db[city][year];
+
+        georeference.SetOriginLongitudeLatitudeHeight(
+            d.lon,
+            d.lat,
+            50.0 // height still manually fixed
+        );
+
+        Debug.Log($"Teleport → {city} ({year}) : lat {d.lat}, lon {d.lon}, sea {d.sea}");
+    }
+}

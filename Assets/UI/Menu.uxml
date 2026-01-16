@@ -1,0 +1,11 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Label text="Menu
+" style="height: 121px; width: 476px; align-items: auto; align-self: center; justify-content: flex-start; font-size: 50px; -unity-text-align: upper-center;"/>
+    <ui:VisualElement style="flex-grow: 1; align-items: stretch; justify-content: space-between; align-self: auto; align-content: auto; margin-top: 13px; margin-right: 13px; margin-bottom: 13px; margin-left: 13px;">
+        <ui:Button text="New York" name="nycButton"/>
+        <ui:Button text="Amsterdam" name="amsterdamButton"/>
+        <ui:Button text="Jakarta" name="jakartaButton"/>
+        <ui:Button text="Venice" name="veniceButton"/>
+        <ui:Button text="Singapore" name="singaporeButton"/>
+    </ui:VisualElement>
+</ui:UXML>

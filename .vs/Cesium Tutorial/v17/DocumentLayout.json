@@ -1,0 +1,69 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\fiasl\\Unity Projects\\Cesium Tutorial\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{89F8463D-1EB1-A1DF-F9DF-56A32FB25635}|Assembly-CSharp.csproj|c:\\users\\fiasl\\unity projects\\cesium tutorial\\assets\\scripts\\citymenucontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{89F8463D-1EB1-A1DF-F9DF-56A32FB25635}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\citymenucontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{89F8463D-1EB1-A1DF-F9DF-56A32FB25635}|Assembly-CSharp.csproj|C:\\Users\\fiasl\\Unity Projects\\Cesium Tutorial\\assets\\scripts\\menusommoner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{89F8463D-1EB1-A1DF-F9DF-56A32FB25635}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\menusommoner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{89F8463D-1EB1-A1DF-F9DF-56A32FB25635}|Assembly-CSharp.csproj|C:\\Users\\fiasl\\Unity Projects\\Cesium Tutorial\\assets\\scripts\\locomotionmodeswitcher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{89F8463D-1EB1-A1DF-F9DF-56A32FB25635}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\locomotionmodeswitcher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CityMenuController.cs",
+              "DocumentMoniker": "C:\\Users\\fiasl\\Unity Projects\\Cesium Tutorial\\Assets\\Scripts\\CityMenuController.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\CityMenuController.cs",
+              "ToolTip": "C:\\Users\\fiasl\\Unity Projects\\Cesium Tutorial\\Assets\\Scripts\\CityMenuController.cs",
+              "RelativeToolTip": "Assets\\Scripts\\CityMenuController.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAuwEoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-13T23:24:25.321Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MenuSommoner.cs",
+              "DocumentMoniker": "C:\\Users\\fiasl\\Unity Projects\\Cesium Tutorial\\Assets\\Scripts\\MenuSommoner.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\MenuSommoner.cs",
+              "ToolTip": "C:\\Users\\fiasl\\Unity Projects\\Cesium Tutorial\\Assets\\Scripts\\MenuSommoner.cs",
+              "RelativeToolTip": "Assets\\Scripts\\MenuSommoner.cs",
+              "ViewState": "AgIAABQAAAAAAAAAAAAQwFwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-13T22:36:39.857Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "LocomotionModeSwitcher.cs",
+              "DocumentMoniker": "C:\\Users\\fiasl\\Unity Projects\\Cesium Tutorial\\Assets\\Scripts\\LocomotionModeSwitcher.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\LocomotionModeSwitcher.cs",
+              "ToolTip": "C:\\Users\\fiasl\\Unity Projects\\Cesium Tutorial\\Assets\\Scripts\\LocomotionModeSwitcher.cs",
+              "RelativeToolTip": "Assets\\Scripts\\LocomotionModeSwitcher.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAQwHIAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-13T20:02:05.615Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
