@@ -3779,6 +3779,8 @@ MonoBehaviour:
   waterPlane: {fileID: 1217129243}
   minYear: 2020
   maxYear: 2150
+  spawnHeightAfterTeleportation: 50
+  playerTransform: {fileID: 1066884987}
 --- !u!1 &1455956490
 GameObject:
   m_ObjectHideFlags: 0

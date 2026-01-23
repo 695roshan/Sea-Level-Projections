@@ -333,6 +333,6 @@ public class CityMenuController : MonoBehaviour
             Debug.LogWarning("Water Plane is not assigned in the Inspector!");
         }
 
-        playerTransform.position = new Vector3(0, spawnHeightAfterTeleportation, 0);
+        playerTransform.position = new Vector3(0, (float)GeoidHeights.undulation(d.lat, d.lon) + spawnHeightAfterTeleportation, 0);
     }
 }

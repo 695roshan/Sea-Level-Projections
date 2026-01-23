@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit.Locomotion.Movement;
 using UnityEngine.XR.Interaction.Toolkit.Locomotion.Gravity;
+using UnityEngine.EventSystems;
 
 public class LocomotionModeSwitcher : MonoBehaviour
 {
@@ -120,8 +121,18 @@ public class LocomotionModeSwitcher : MonoBehaviour
         }
     }
 
+    private bool IsPointerOverUI()
+    {
+        return EventSystem.current != null && EventSystem.current.IsPointerOverGameObject();
+    }
+
     void Update()
     {
+        if (IsPointerOverUI())
+        {
+            return;
+        }
+
         if (isFlying && characterController != null)
         {
             HandleAltitudeControl();
