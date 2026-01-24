@@ -8,27 +8,28 @@ using UnityEngine.InputSystem;
 public class ScatterPlot : MonoBehaviour
 {
     // Simple data structure
-    public struct City
+    private struct City
     {
         public string name;
         public float lat;
         public float lon;
     }
 
-    public List<City> cities = new List<City>();
+    private List<City> cities = new List<City>();
 
-    public void Awake()
+    void Awake()
     {
         LoadCityCSVForScatterPlot();
         CreateScatterPlot();
-        MakeSelection("NEW_YORK");
+        AddDataAndMakeSelection("NEW_YORK");
     }
 
     // ---------------- SCATTER PLOT ----------------
-    public void CreateScatterPlot()
+    // Create the scatter plot chart
+    void CreateScatterPlot()
     {
         var chart = GetComponent<ScatterChart>();
-        if (chart == null)
+        if (chart == null)// if there is no ScatterChart component attached, add one
         {
             chart = gameObject.AddComponent<ScatterChart>();
             chart.Init();
@@ -59,12 +60,10 @@ public class ScatterPlot : MonoBehaviour
         xAxis.minMaxType = Axis.AxisMinMaxType.Custom;
         xAxis.min = -180;
         xAxis.max = 180;
-        // xAxis.name = "Longitude";
 
         yAxis.minMaxType = Axis.AxisMinMaxType.Custom;
         yAxis.min = -90;
         yAxis.max = 90;
-        // yAxis.name = "Latitude";
 
         xAxis.axisLine.show = false;
         yAxis.axisLine.show = false;
@@ -77,11 +76,17 @@ public class ScatterPlot : MonoBehaviour
 
         xAxis.splitLine.show = false;
         yAxis.splitLine.show = false;
+    }
 
-        // Clear old data
+    // Draw chart with the selected city colored differently
+    void AddDataAndMakeSelection(string cityName)
+    {
+        // Clear the old chart data, this is done as the selection
+        // does not work for subsequent location changes
+        var chart = GetComponent<ScatterChart>();
         chart.RemoveData();
-
-        // Create scatter series
+        
+        // Create scatter serie
         var serie = chart.AddSerie<Scatter>("Cities");
         serie.symbol.show = true;
         serie.symbol.type = SymbolType.Circle;
@@ -90,57 +95,38 @@ public class ScatterPlot : MonoBehaviour
         serie.symbol.sizeType = SymbolSizeType.Custom;
         serie.symbol.size = 2f;
         serie.clip = false;
-        // serie.animation.enable = false;
+        serie.animation.enable = false;
         serie.itemStyle.color = ColorUtil.GetColor("#00FF00");
         serie.itemStyle.opacity = 0.1f;
-        // serie.itemStyle.borderColor = ColorUtil.GetColor("#000000");
-        // serie.itemStyle.borderWidth = 2;
 
-        // Add city points
+        // Draw chart with all cities
         foreach (var city in cities)
         {
             chart.AddData(
-                0,
+                0,                  // series index
                 city.lon, city.lat, // X = lon, Y = lat
-                city.name                         // tooltip label
+                city.name           // Data name
             );
-        }
-    }
-
-    // Color the selected city differently
-    public void MakeSelection(string cityName)
-    {
-        var chart = GetComponent<ScatterChart>();
-        var serie = chart.GetSerie(0);
-
-        foreach (var cityData in serie.data)
-        {
-            // CLEAR previous selection properly
-            cityData.selected = false;
-            cityData.RemoveComponent<SelectStyle>();
-        }
-
-        foreach (var cityData in serie.data)
-        {
-            if (cityData.name == cityName)
+            // Get the last added data point to the serie
+            var cityData = serie.data[serie.data.Count - 1];
+            // Apply selection style to only the selected city
+            if (city.name == cityName)
             {
-                cityData.selected = true;
-
                 var selection = cityData.EnsureComponent<SelectStyle>();
                 selection.symbol.type = SymbolType.Diamond;
                 selection.symbol.sizeType = SymbolSizeType.Custom;
-                selection.symbol.size = 2f;
+                selection.symbol.size = 4f;
                 selection.itemStyle.color = ColorUtil.GetColor("#FF0000");
                 selection.itemStyle.opacity = 1f;
                 selection.label.show = false;
-                break;
             }
         }
+        
         chart.RefreshChart();
     }
 
     // ---------------- CSV LOADING ----------------
-    public void LoadCityCSVForScatterPlot()
+    void LoadCityCSVForScatterPlot()
     {
         string path = Path.Combine(
             Application.streamingAssetsPath,
@@ -171,5 +157,10 @@ public class ScatterPlot : MonoBehaviour
         }
 
         Debug.Log($"Loaded {cities.Count} cities.");
+    }
+    // ---------------- PUBLIC API ----------------
+    public void UpdateScatterPlot(string cityName)
+    {
+        AddDataAndMakeSelection(cityName);
     }
 }

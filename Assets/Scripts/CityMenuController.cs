@@ -15,7 +15,7 @@ public class CityMenuController : MonoBehaviour
     [Header("UI Elements")]
     public TMP_Dropdown cityDropdown;
     public Slider yearSlider;
-    public TextMeshProUGUI yearText;
+    // public TextMeshProUGUI yearText;
     public Button goButton;
 
     [Header("Scatter Plot")]
@@ -23,6 +23,9 @@ public class CityMenuController : MonoBehaviour
 
     [Header("Line Plot")]
     public LinePlot linePlot;
+
+    [Header ("Bar Plot")]
+    public TopNBarChart barPlot;
 
     private Dictionary<string, Dictionary<int, Data>> db =
         new Dictionary<string, Dictionary<int, Data>>();
@@ -52,7 +55,8 @@ public class CityMenuController : MonoBehaviour
         yearSlider.onValueChanged.AddListener(OnYearChanged);
         goButton.onClick.AddListener(OnGoClicked);
 
-        OnYearChanged(yearSlider.value * 10);
+        // OnYearChanged(yearSlider.value * 10);
+        OnYearChanged(yearSlider.value);
     }
 
     // ---------------- CSV ----------------
@@ -101,11 +105,22 @@ public class CityMenuController : MonoBehaviour
 
     private void OnYearChanged(float value)
     {
-        if (yearText != null)
+        // if (yearText != null)
+        // {
+        //     // Linearly interpolate the year based on slider value (0 to 1)
+        //     float currentYear = Mathf.Lerp(minYear, maxYear, value);
+        //     yearText.text = Mathf.RoundToInt(currentYear).ToString();
+        // }
+        // Calculate Continuous Year (e.g., 2025.5)
+        float continuousYear = Mathf.Lerp(minYear, maxYear, yearSlider.value);
+        // Determine Floor (Lower) and Ceiling (Upper) Decades
+        // Example: if year is 2025, floor is 2020, ceiling is 2030.
+        int floorYear = minYear + (int)((continuousYear - minYear) / 10) * 10;
+        
+        if (barPlot != null)
         {
-            // Linearly interpolate the year based on slider value (0 to 1)
-            float currentYear = Mathf.Lerp(minYear, maxYear, value);
-            yearText.text = Mathf.RoundToInt(currentYear).ToString();
+            barPlot.UpdateYear(floorYear);
+            Debug.Log($"Year changed to {floorYear} ");
         }
     }
 
@@ -147,15 +162,16 @@ public class CityMenuController : MonoBehaviour
         // Highlight selected city in the scatter plot
         if (scatterPlot != null)
         {
-            scatterPlot.MakeSelection(city);
+            scatterPlot.UpdateScatterPlot(city);
         }
 
         // Update the line plot to show the selected city
         if (linePlot != null)
         {
-            linePlot.CreateLinePlot(city);
+            linePlot.UpdateLinePlot(city);
         }
-        
+
+
         Debug.Log($"Teleport → {city} ({continuousYear}) : lat {d.lat}, lon {d.lon}, sea {d.sea}");
 
         // Save data to singleton

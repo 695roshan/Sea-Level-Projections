@@ -8,23 +8,23 @@ using UnityEngine.InputSystem;
 public class LinePlot : MonoBehaviour
 {
     // Simple data structure
-    public struct CitySeaLevelChange
+    private struct CitySeaLevelChange
     {
         public string name;
         public string year;
         public float sea_level_change;
     }
 
-    public List<CitySeaLevelChange> citySeaLevelChanges = new List<CitySeaLevelChange>();
+    private List<CitySeaLevelChange> citySeaLevelChanges = new List<CitySeaLevelChange>();
 
-    public void Awake()
+    void Awake()
     {
         LoadCityCSVForLinePlot();
         CreateLinePlot("NEW_YORK");
     }
 
     // ---------------- LINE PLOT ----------------
-    public void CreateLinePlot(string cityName)
+    void CreateLinePlot(string cityName)
     {
         var chart = GetComponent<LineChart>();
         if (chart == null)
@@ -39,7 +39,7 @@ public class LinePlot : MonoBehaviour
         
         // Title
         chart.EnsureChartComponent<Title>().show = true;
-        chart.EnsureChartComponent<Title>().text = $"Median sea level change over the years in {cityName}";
+        chart.EnsureChartComponent<Title>().text = $"Median sea level change (mm) over the years in {cityName}";
 
         // Tooltip & Legend
         var tooltip = chart.EnsureChartComponent<Tooltip>();
@@ -108,7 +108,7 @@ public class LinePlot : MonoBehaviour
     }
 
     // ---------------- CSV LOADING ----------------
-    public void LoadCityCSVForLinePlot()
+    void LoadCityCSVForLinePlot()
     {
         string path = Path.Combine(
             Application.streamingAssetsPath,
@@ -137,5 +137,10 @@ public class LinePlot : MonoBehaviour
 
             citySeaLevelChanges.Add(city);
         }
+    }
+    // ---------------- PUBLIC API ----------------
+    public void UpdateLinePlot(string cityName)
+    {
+        CreateLinePlot(cityName);
     }
 }
