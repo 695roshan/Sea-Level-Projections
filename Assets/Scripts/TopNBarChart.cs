@@ -28,7 +28,7 @@ public class TopNBarChart : MonoBehaviour
     {
         string path = Path.Combine(
             Application.streamingAssetsPath,
-            "final_filtered_median_data.csv"
+            "extended_sea_level_data_2500.csv"
         );
 
         if (!File.Exists(path))

@@ -3,16 +3,24 @@
   "WorkspaceRootPath": "D:\\git\\Sea-Level-Projections-main\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{245880B2-2DE5-DE0D-4074-44FABC353CC5}|Assembly-CSharp.csproj|d:\\git\\sea-level-projections-main\\assets\\scripts\\scatterplot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{245880B2-2DE5-DE0D-4074-44FABC353CC5}|Assembly-CSharp.csproj|d:\\git\\sea-level-projections-main\\assets\\scripts\\lineplot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{245880B2-2DE5-DE0D-4074-44FABC353CC5}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\lineplot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{245880B2-2DE5-DE0D-4074-44FABC353CC5}|Assembly-CSharp.csproj|d:\\git\\sea-level-projections-main\\assets\\scripts\\citymenucontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{245880B2-2DE5-DE0D-4074-44FABC353CC5}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\citymenucontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{245880B2-2DE5-DE0D-4074-44FABC353CC5}|Assembly-CSharp.csproj|D:\\git\\Sea-Level-Projections-main\\assets\\scripts\\waterlevelslider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{245880B2-2DE5-DE0D-4074-44FABC353CC5}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\waterlevelslider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{245880B2-2DE5-DE0D-4074-44FABC353CC5}|Assembly-CSharp.csproj|D:\\git\\Sea-Level-Projections-main\\assets\\scripts\\scatterplot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{245880B2-2DE5-DE0D-4074-44FABC353CC5}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\scatterplot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{245880B2-2DE5-DE0D-4074-44FABC353CC5}|Assembly-CSharp.csproj|D:\\git\\Sea-Level-Projections-main\\assets\\scripts\\locomotionmodeswitcher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{245880B2-2DE5-DE0D-4074-44FABC353CC5}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\locomotionmodeswitcher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{245880B2-2DE5-DE0D-4074-44FABC353CC5}|Assembly-CSharp.csproj|D:\\git\\Sea-Level-Projections-main\\assets\\scripts\\citymenucontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{245880B2-2DE5-DE0D-4074-44FABC353CC5}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\citymenucontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -27,6 +35,31 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "LinePlot.cs",
+              "DocumentMoniker": "D:\\git\\Sea-Level-Projections-main\\Assets\\Scripts\\LinePlot.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\LinePlot.cs",
+              "ToolTip": "D:\\git\\Sea-Level-Projections-main\\Assets\\Scripts\\LinePlot.cs",
+              "RelativeToolTip": "Assets\\Scripts\\LinePlot.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-26T20:49:48.313Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "WaterLevelSlider.cs",
+              "DocumentMoniker": "D:\\git\\Sea-Level-Projections-main\\Assets\\Scripts\\WaterLevelSlider.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\WaterLevelSlider.cs",
+              "ToolTip": "D:\\git\\Sea-Level-Projections-main\\Assets\\Scripts\\WaterLevelSlider.cs",
+              "RelativeToolTip": "Assets\\Scripts\\WaterLevelSlider.cs",
+              "ViewState": "AgIAADAAAAAAAAAAAAAowEsAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-26T20:07:20.853Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "ScatterPlot.cs",
               "DocumentMoniker": "D:\\git\\Sea-Level-Projections-main\\Assets\\Scripts\\ScatterPlot.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\ScatterPlot.cs",
@@ -34,12 +67,11 @@
               "RelativeToolTip": "Assets\\Scripts\\ScatterPlot.cs",
               "ViewState": "AgIAAHoAAAAAAAAAAAAIwI8AAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-25T09:53:05.194Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-25T09:53:05.194Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "LocomotionModeSwitcher.cs",
               "DocumentMoniker": "D:\\git\\Sea-Level-Projections-main\\Assets\\Scripts\\LocomotionModeSwitcher.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\LocomotionModeSwitcher.cs",
@@ -51,15 +83,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "CityMenuController.cs",
               "DocumentMoniker": "D:\\git\\Sea-Level-Projections-main\\Assets\\Scripts\\CityMenuController.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\CityMenuController.cs",
               "ToolTip": "D:\\git\\Sea-Level-Projections-main\\Assets\\Scripts\\CityMenuController.cs",
               "RelativeToolTip": "Assets\\Scripts\\CityMenuController.cs",
-              "ViewState": "AgIAAJIAAAAAAAAAAAAYwLUAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAADEAAAAAAAAAAAAgwE4AAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-23T18:28:39.213Z"
+              "WhenOpened": "2026-01-23T18:28:39.213Z",
+              "EditorCaption": ""
             }
           ]
         }

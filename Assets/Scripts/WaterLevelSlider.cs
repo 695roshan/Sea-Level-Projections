@@ -10,7 +10,7 @@ public class WaterLevelSlider : MonoBehaviour
 
     [Header("Settings")]
     public int minYear = 2020;
-    public int maxYear = 2150;
+    public int maxYear = 2500;
 
     void Start()
     {

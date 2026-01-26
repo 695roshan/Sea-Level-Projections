@@ -35,9 +35,13 @@ public class CityMenuController : MonoBehaviour
 
     [Header("Settings")]
     public int minYear = 2020;
-    public int maxYear = 2150;
+    public int maxYear = 2500;
     public float spawnHeightAfterTeleportation = 50.0f;
     public Transform playerTransform;
+
+    [Header("Startup")]
+    [Tooltip("Exact name of the city to load on start (Case Sensitive). Leave empty to disable.")]
+    public string startupCity = "NEW_YORK";
 
     private struct Data
     {
@@ -59,11 +63,39 @@ public class CityMenuController : MonoBehaviour
         OnYearChanged(yearSlider.value);
     }
 
+    private void Start()
+    {
+        if (!string.IsNullOrEmpty(startupCity))
+        {
+            // 1. Get the list of keys exactly as they were used to populate the dropdown
+            List<string> cityKeys = db.Keys.ToList();
+
+            // 2. Find the index of the requested city
+            int index = cityKeys.IndexOf(startupCity);
+
+            if (index != -1)
+            {
+                // 3. Set the UI Dropdown to this index so the UI matches the internal state
+                cityDropdown.value = index;
+                cityDropdown.RefreshShownValue();
+
+                // 4. Manually trigger the "Go" logic
+                OnGoClicked();
+
+                Debug.Log($"<color=green>Auto-started at {startupCity}</color>");
+            }
+            else
+            {
+                Debug.LogWarning($"Startup City '{startupCity}' not found in CSV database.");
+            }
+        }
+    }
+
     // ---------------- CSV ----------------
     private void LoadCityCSV()
     {
         // string path = Path.Combine(Application.streamingAssetsPath, "sea_level_change_median_values.csv");
-        string path = Path.Combine(Application.streamingAssetsPath, "final_filtered_median_data.csv");
+        string path = Path.Combine(Application.streamingAssetsPath, "extended_sea_level_data_2500.csv");
         if (!File.Exists(path))
         {
             Debug.LogError("CSV not found: " + path);
@@ -105,22 +137,13 @@ public class CityMenuController : MonoBehaviour
 
     private void OnYearChanged(float value)
     {
-        // if (yearText != null)
-        // {
-        //     // Linearly interpolate the year based on slider value (0 to 1)
-        //     float currentYear = Mathf.Lerp(minYear, maxYear, value);
-        //     yearText.text = Mathf.RoundToInt(currentYear).ToString();
-        // }
-        // Calculate Continuous Year (e.g., 2025.5)
         float continuousYear = Mathf.Lerp(minYear, maxYear, yearSlider.value);
-        // Determine Floor (Lower) and Ceiling (Upper) Decades
-        // Example: if year is 2025, floor is 2020, ceiling is 2030.
         int floorYear = minYear + (int)((continuousYear - minYear) / 10) * 10;
         
         if (barPlot != null)
         {
             barPlot.UpdateYear(floorYear);
-            Debug.Log($"Year changed to {floorYear} ");
+            // Debug.Log($"Year changed to {floorYear} ");
         }
     }
 
