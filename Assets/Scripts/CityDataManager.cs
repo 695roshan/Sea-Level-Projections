@@ -41,7 +41,7 @@ public class CityDataManager : MonoBehaviour
         SeaLevelsByYear = seaLevels; // Save the whole list
         SelectedYear = selectedYear;
 
-        Debug.Log($"[Singleton] Data Updated for {CityName}. Loaded {SeaLevelsByYear.Count} historical data points.");
+        // Debug.Log($"[Singleton] Data Updated for {CityName}. Loaded {SeaLevelsByYear.Count} historical data points.");
 
         OnCityDataChanged?.Invoke();
     }

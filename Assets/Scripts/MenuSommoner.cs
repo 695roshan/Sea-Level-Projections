@@ -24,10 +24,10 @@ public class MenuSommoner : MonoBehaviour
 
     void Start()
     {
-        // Menu is hidden at the start
         if (menuRoot != null)
         {
-            menuRoot.SetActive(false);
+            menuRoot.SetActive(true);
+            //OpenMenu();
         }
     }
 

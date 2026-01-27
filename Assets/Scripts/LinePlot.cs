@@ -26,17 +26,25 @@ public class LinePlot : MonoBehaviour
     // ---------------- LINE PLOT ----------------
     void CreateLinePlot(string cityName)
     {
+        // 1. Get or Add the Chart
         var chart = GetComponent<LineChart>();
         if (chart == null)
         {
             chart = gameObject.AddComponent<LineChart>();
             chart.Init();
-            chart.SetSize(700, 400);
         }
-        
+
+        // 2. FORCE FIT: Make the chart fill the parent container
+        // Instead of SetSize, we stretch the RectTransform anchors
+        var rt = GetComponent<RectTransform>();
+        rt.anchorMin = Vector2.zero; // Bottom-Left
+        rt.anchorMax = Vector2.one;  // Top-Right
+        rt.offsetMin = Vector2.zero; // No margin
+        rt.offsetMax = Vector2.zero; // No margin
+
         // Change to dark theme
-        chart.theme.sharedTheme=Resources.Load<Theme>("XCTheme-Dark");
-        
+        chart.theme.sharedTheme = Resources.Load<Theme>("XCTheme-Dark");
+
         // Title
         chart.EnsureChartComponent<Title>().show = true;
         chart.EnsureChartComponent<Title>().text = $"Median sea level change (mm) over the years in {cityName}";
@@ -44,10 +52,11 @@ public class LinePlot : MonoBehaviour
         // Tooltip & Legend
         var tooltip = chart.EnsureChartComponent<Tooltip>();
         tooltip.show = true;
-        tooltip.trigger = Tooltip.Trigger.Item;
-        
+        tooltip.trigger = Tooltip.Trigger.Axis; // 'Axis' usually feels better for line charts than 'Item'
+
         chart.EnsureChartComponent<Legend>().show = false;
-        // Axes
+
+        // Axes configuration (Preserved your settings)
         var xAxis = chart.EnsureChartComponent<XAxis>();
         var yAxis = chart.EnsureChartComponent<YAxis>();
 
@@ -55,58 +64,52 @@ public class LinePlot : MonoBehaviour
         yAxis.type = Axis.AxisType.Value;
 
         xAxis.minMaxType = Axis.AxisMinMaxType.MinMaxAuto;
-        
+
         xAxis.axisName.show = true;
         xAxis.axisName.name = "Year";
-        // Debug.Log(JsonUtility.ToJson(xAxis.axisName, true));
-        
         xAxis.axisName.labelStyle.position = LabelStyle.Position.Middle;
         xAxis.axisName.labelStyle.autoOffset = false;
-        xAxis.axisName.labelStyle.offset = new Vector3(5.0f,-35.0f,0.0f);
-        
+        xAxis.axisName.labelStyle.offset = new Vector3(5.0f, -35.0f, 0.0f);
+
         yAxis.minMaxType = Axis.AxisMinMaxType.MinMaxAuto;
         yAxis.axisName.show = true;
         yAxis.axisName.name = "Median sea level change (in mm)";
-
         yAxis.axisName.labelStyle.position = LabelStyle.Position.Middle;
         yAxis.axisName.labelStyle.autoOffset = false;
-        yAxis.axisName.labelStyle.offset = new Vector3(-60.0f,22.0f,0.0f);
+        yAxis.axisName.labelStyle.offset = new Vector3(-60.0f, 22.0f, 0.0f);
         yAxis.axisName.labelStyle.autoRotate = false;
         yAxis.axisName.labelStyle.rotate = 90.0f;
 
         xAxis.axisLine.show = true;
         yAxis.axisLine.show = true;
-
         xAxis.axisLabel.show = true;
         yAxis.axisLabel.show = true;
-
         xAxis.axisTick.show = true;
         yAxis.axisTick.show = true;
-
         xAxis.splitLine.show = false;
         yAxis.splitLine.show = false;
 
-        // Clear old data
+        // 3. Clear old data
         chart.RemoveData();
+        chart.RemoveAllSerie();
 
-        // Create line series
+        // 4. Create line series
         var serie = chart.AddSerie<Line>("Cities");
 
-        // Add city points
+        // Optional: Make the line smoother and fill the area below slightly for better visuals
+        serie.lineStyle.width = 3.0f;
+        serie.symbol.show = false; // Hides individual dots for a cleaner line
+
+        // 5. Add city points
         foreach (var city in citySeaLevelChanges)
         {
             if (city.name == cityName)
             {
-                chart.AddXAxisData(city.year);// X = year
-                chart.AddData(
-                    0,
-                    city.sea_level_change, // Y = sea level change
-                    city.name              // tooltip label
-                );
+                chart.AddXAxisData(city.year);
+                chart.AddData(0, city.sea_level_change, city.name);
             }
         }
     }
-
     // ---------------- CSV LOADING ----------------
     void LoadCityCSVForLinePlot()
     {

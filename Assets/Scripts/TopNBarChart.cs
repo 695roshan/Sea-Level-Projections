@@ -57,21 +57,28 @@ public class TopNBarChart : MonoBehaviour
             });
         }
 
-        Debug.Log($"Loaded {allData.Count} entries for year {selectedYear}");
+        // Debug.Log($"Loaded {allData.Count} entries for year {selectedYear}");
     }
 
     // ---------------- CHART ----------------
     void CreateChart(int selectedYear)
     {
-        var chart = GetComponent<BarChart>();
+        var chart = GetComponentInChildren<BarChart>();
         if (chart == null)
         {
             chart = gameObject.AddComponent<BarChart>();
             chart.Init();
-            chart.SetSize(700, topN * 40);
         }
 
+        var rt = GetComponent<RectTransform>();
+        rt.anchorMin = Vector2.zero; // Bottom-Left
+        rt.anchorMax = Vector2.one;  // Top-Right
+        rt.offsetMin = Vector2.zero; // No margin
+        rt.offsetMax = Vector2.zero; // No margin
+
+
         chart.RemoveData();
+        chart.RemoveAllSerie(); 
 
         // Theme
         chart.theme.sharedTheme = Resources.Load<Theme>("XCTheme-Dark");

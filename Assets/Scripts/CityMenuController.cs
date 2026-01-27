@@ -122,7 +122,7 @@ public class CityMenuController : MonoBehaviour
             db[name][year] = new Data { country = country, lat = lat, lon = lon, sea = seaMeters };
         }
 
-        Debug.Log($"Loaded {db.Count} cities.");
+        // Debug.Log($"Loaded {db.Count} cities.");
     }
 
     // ---------------- UI BUILD ----------------

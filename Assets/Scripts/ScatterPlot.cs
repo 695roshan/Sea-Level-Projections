@@ -33,13 +33,18 @@ public class ScatterPlot : MonoBehaviour
         {
             chart = gameObject.AddComponent<ScatterChart>();
             chart.Init();
-            chart.SetSize(700, 400);
         }
-        
+
+        var rt = GetComponent<RectTransform>();
+        rt.anchorMin = Vector2.zero; // Bottom-Left
+        rt.anchorMax = Vector2.one;  // Top-Right
+        rt.offsetMin = Vector2.zero; // No margin
+        rt.offsetMax = Vector2.zero; // No margin
+
         // Change to dark theme
         // chart.theme.sharedTheme.CopyTheme(ThemeType.Dark);
-        chart.theme.sharedTheme=Resources.Load<Theme>("XCTheme-Dark");
-        
+        chart.theme.sharedTheme = Resources.Load<Theme>("XCTheme-Dark");
+
         // Title
         chart.EnsureChartComponent<Title>().show = true;
         chart.EnsureChartComponent<Title>().text = "Coastal Cities";
@@ -48,7 +53,7 @@ public class ScatterPlot : MonoBehaviour
         var tooltip = chart.EnsureChartComponent<Tooltip>();
         tooltip.show = true;
         tooltip.trigger = Tooltip.Trigger.Item;
-        
+
         chart.EnsureChartComponent<Legend>().show = false;
         // Axes
         var xAxis = chart.EnsureChartComponent<XAxis>();
@@ -85,7 +90,7 @@ public class ScatterPlot : MonoBehaviour
         // does not work for subsequent location changes
         var chart = GetComponent<ScatterChart>();
         chart.RemoveData();
-        
+
         // Create scatter serie
         var serie = chart.AddSerie<Scatter>("Cities");
         serie.symbol.show = true;
@@ -121,7 +126,7 @@ public class ScatterPlot : MonoBehaviour
                 selection.label.show = false;
             }
         }
-        
+
         chart.RefreshChart();
     }
 
