@@ -5,7 +5,7 @@ public class MenuSommoner : MonoBehaviour
 {
     [Header("References")]
     [Tooltip("GameObject with UIDocument")]
-    public GameObject menuObject;
+    public GameObject menuRoot;
 
     [Tooltip("Main (VR) Camera")]
     public Transform headCamera;
@@ -24,10 +24,10 @@ public class MenuSommoner : MonoBehaviour
 
     void Start()
     {
-        // Menu is hidden at the start
-        if (menuObject != null)
+        if (menuRoot != null)
         {
-            menuObject.SetActive(false);
+            menuRoot.SetActive(true);
+            //OpenMenu();
         }
     }
 
@@ -45,10 +45,10 @@ public class MenuSommoner : MonoBehaviour
 
     void Update()
     {
-        //if (isMenuOpen && menuObject != null && headCamera != null)
+        //if (isMenuOpen && menuRoot != null && headCamera != null)
         //{
         //    // check distance to see if the menu should auto-close
-        //    float distance = Vector3.Distance(headCamera.position, menuObject.transform.position);
+        //    float distance = Vector3.Distance(headCamera.position, menuRoot.transform.position);
 
         //    if (distance > autoCloseDistance)
         //    {
@@ -71,7 +71,7 @@ public class MenuSommoner : MonoBehaviour
 
     private void OpenMenu()
     {
-        if (headCamera == null || menuObject == null)
+        if (headCamera == null || menuRoot == null)
             return;
 
         // Calculate spawn position in front of the camera
@@ -82,20 +82,20 @@ public class MenuSommoner : MonoBehaviour
         spawnPos.y -= 0.2f;
 
         // set menu position
-        menuObject.transform.position = spawnPos;
+        menuRoot.transform.position = spawnPos;
 
         // make the menu face the user
-        menuObject.transform.LookAt(2 * menuObject.transform.position - headCamera.position);
+        menuRoot.transform.LookAt(2 * menuRoot.transform.position - headCamera.position);
 
-        menuObject.SetActive(true);
+        menuRoot.SetActive(true);
         isMenuOpen = true;
     }
 
     private void CloseMenu()
     {
-        if (menuObject != null)
+        if (menuRoot != null)
         {
-            menuObject.SetActive(false);
+            menuRoot.SetActive(false);
         }
         isMenuOpen = false;
     }

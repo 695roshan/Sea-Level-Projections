@@ -1,145 +1,3 @@
-// using System.Collections.Generic;
-// using System.IO;
-// using System.Linq;
-// using UnityEngine;
-// using UnityEngine.UI;
-// using CesiumForUnity;
-
-// public class CityMenuController : MonoBehaviour
-// {
-//     [Header("Cesium Components")]
-//     public CesiumGeoreference georeference;
-
-//     [Header("Year UI")]
-//     public Slider yearSlider;
-//     public Text yearText;  // optional, set in Inspector
-
-//     // Struct to hold all needed values per row
-//     private struct CityYearData
-//     {
-//         public double lat;
-//         public double lon;
-//         public double seaLevel;
-//     }
-
-//     // Dictionary: city name → year → {lat,lon,sea}
-//     private Dictionary<string, Dictionary<int, CityYearData>> db =
-//         new Dictionary<string, Dictionary<int, CityYearData>>();
-
-//     [System.Serializable]
-//     public class CityTarget
-//     {
-//         public string name;
-//         public Button button;
-//     }
-
-//     [Header("Cities (names must match CSV)")]
-//     public CityTarget newYork;
-//     public CityTarget mumbai;
-//     public CityTarget venice;
-//     public CityTarget sanFrancisco;
-
-//     private void Awake()
-//     {
-//         LoadCityCSV();
-//         SetupCityButtons();
-
-//         if (yearSlider != null)
-//         {
-//             yearSlider.onValueChanged.AddListener(OnYearChanged);
-//             OnYearChanged(yearSlider.value*10);
-//         }
-//     }
-
-//     // ---------------- CSV LOAD ----------------
-//     private void LoadCityCSV()
-//     {
-//         string path = Path.Combine(Application.streamingAssetsPath, "sea_level_change_median_values.csv");
-
-//         if (!File.Exists(path))
-//         {
-//             Debug.LogError("CSV not found: " + path);
-//             return;
-//         }
-
-//         var lines = File.ReadAllLines(path).Skip(1);
-
-//         foreach (var line in lines)
-//         {
-//             var cols = line.Split(',');
-
-//             string name = cols[0];
-//             double lat = double.Parse(cols[1]);
-//             double lon = double.Parse(cols[2]);
-//             int year = int.Parse(cols[3]);
-//             double seaLevelMM = double.Parse(cols[4]);  // in your file col 4 is sea level
-//             double seaLevelMeters = seaLevelMM / 1000.0;
-
-//             if (!db.ContainsKey(name))
-//             {
-//                 db[name] = new Dictionary<int, CityYearData>();
-//             }
-
-//             db[name][year] = new CityYearData
-//             {
-//                 lat = lat,
-//                 lon = lon,
-//                 seaLevel = seaLevelMeters
-//             };
-//         }
-
-//         Debug.Log($"Loaded CSV with {db.Count} cities and year slices.");
-//     }
-
-//     // --------------- BUTTON SETUP ----------------
-//     private void SetupCityButtons()
-//     {
-//         SetupCityButton(newYork);
-//         SetupCityButton(mumbai);
-//         SetupCityButton(venice);
-//         SetupCityButton(sanFrancisco);
-//     }
-
-//     private void SetupCityButton(CityTarget city)
-//     {
-//         if (city.button == null) return;
-
-//         city.button.onClick.RemoveAllListeners();
-//         city.button.onClick.AddListener(() => TeleportTo(city.name));
-//     }
-
-//     // ---------------- TELEPORT ----------------
-//     private void TeleportTo(string cityName)
-//     {
-//         int selectedYear = Mathf.RoundToInt(yearSlider.value*10);
-
-//         if (!db.ContainsKey(cityName) || !db[cityName].ContainsKey(selectedYear))
-//         {
-//             Debug.LogError($"No data for {cityName} in {selectedYear}");
-//             return;
-//         }
-
-//         var data = db[cityName][selectedYear];
-
-//         georeference.SetOriginLongitudeLatitudeHeight(
-//             data.lon,
-//             data.lat,
-//             50.0 // still fixed height
-//         );
-
-//         Debug.Log($"Moved to {cityName} ({selectedYear}) lat:{data.lat} lon:{data.lon} sea:{data.seaLevel}m");
-//     }
-
-//     // -------------- UI UPDATE ----------------
-//     private void OnYearChanged(float value)
-//     {
-//         if (yearText != null)
-//         {
-//             yearText.text = Mathf.RoundToInt(value).ToString();
-//         }
-//     }
-// }
-
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -157,8 +15,17 @@ public class CityMenuController : MonoBehaviour
     [Header("UI Elements")]
     public TMP_Dropdown cityDropdown;
     public Slider yearSlider;
-    public TextMeshProUGUI yearText;
+    // public TextMeshProUGUI yearText;
     public Button goButton;
+
+    [Header("Scatter Plot")]
+    public ScatterPlot scatterPlot;
+
+    [Header("Line Plot")]
+    public LinePlot linePlot;
+
+    [Header ("Bar Plot")]
+    public TopNBarChart barPlot;
 
     private Dictionary<string, Dictionary<int, Data>> db =
         new Dictionary<string, Dictionary<int, Data>>();
@@ -168,9 +35,13 @@ public class CityMenuController : MonoBehaviour
 
     [Header("Settings")]
     public int minYear = 2020;
-    public int maxYear = 2150;
+    public int maxYear = 2500;
     public float spawnHeightAfterTeleportation = 50.0f;
     public Transform playerTransform;
+
+    [Header("Startup")]
+    [Tooltip("Exact name of the city to load on start (Case Sensitive). Leave empty to disable.")]
+    public string startupCity = "NEW_YORK";
 
     private struct Data
     {
@@ -188,14 +59,43 @@ public class CityMenuController : MonoBehaviour
         yearSlider.onValueChanged.AddListener(OnYearChanged);
         goButton.onClick.AddListener(OnGoClicked);
 
-        OnYearChanged(yearSlider.value * 10);
+        // OnYearChanged(yearSlider.value * 10);
+        OnYearChanged(yearSlider.value);
+    }
+
+    private void Start()
+    {
+        if (!string.IsNullOrEmpty(startupCity))
+        {
+            // 1. Get the list of keys exactly as they were used to populate the dropdown
+            List<string> cityKeys = db.Keys.ToList();
+
+            // 2. Find the index of the requested city
+            int index = cityKeys.IndexOf(startupCity);
+
+            if (index != -1)
+            {
+                // 3. Set the UI Dropdown to this index so the UI matches the internal state
+                cityDropdown.value = index;
+                cityDropdown.RefreshShownValue();
+
+                // 4. Manually trigger the "Go" logic
+                OnGoClicked();
+
+                Debug.Log($"<color=green>Auto-started at {startupCity}</color>");
+            }
+            else
+            {
+                Debug.LogWarning($"Startup City '{startupCity}' not found in CSV database.");
+            }
+        }
     }
 
     // ---------------- CSV ----------------
     private void LoadCityCSV()
     {
         // string path = Path.Combine(Application.streamingAssetsPath, "sea_level_change_median_values.csv");
-        string path = Path.Combine(Application.streamingAssetsPath, "final_filtered_median_data.csv");
+        string path = Path.Combine(Application.streamingAssetsPath, "extended_sea_level_data_2500.csv");
         if (!File.Exists(path))
         {
             Debug.LogError("CSV not found: " + path);
@@ -222,7 +122,7 @@ public class CityMenuController : MonoBehaviour
             db[name][year] = new Data { country = country, lat = lat, lon = lon, sea = seaMeters };
         }
 
-        Debug.Log($"Loaded {db.Count} cities.");
+        // Debug.Log($"Loaded {db.Count} cities.");
     }
 
     // ---------------- UI BUILD ----------------
@@ -237,11 +137,13 @@ public class CityMenuController : MonoBehaviour
 
     private void OnYearChanged(float value)
     {
-        if (yearText != null)
+        float continuousYear = Mathf.Lerp(minYear, maxYear, yearSlider.value);
+        int floorYear = minYear + (int)((continuousYear - minYear) / 10) * 10;
+        
+        if (barPlot != null)
         {
-            // Linearly interpolate the year based on slider value (0 to 1)
-            float currentYear = Mathf.Lerp(minYear, maxYear, value);
-            yearText.text = Mathf.RoundToInt(currentYear).ToString();
+            barPlot.UpdateYear(floorYear);
+            // Debug.Log($"Year changed to {floorYear} ");
         }
     }
 
@@ -279,6 +181,19 @@ public class CityMenuController : MonoBehaviour
             d.lat,
             0.0
         );
+
+        // Highlight selected city in the scatter plot
+        if (scatterPlot != null)
+        {
+            scatterPlot.UpdateScatterPlot(city);
+        }
+
+        // Update the line plot to show the selected city
+        if (linePlot != null)
+        {
+            linePlot.UpdateLinePlot(city);
+        }
+
 
         Debug.Log($"Teleport → {city} ({continuousYear}) : lat {d.lat}, lon {d.lon}, sea {d.sea}");
 
@@ -333,6 +248,6 @@ public class CityMenuController : MonoBehaviour
             Debug.LogWarning("Water Plane is not assigned in the Inspector!");
         }
 
-        playerTransform.position = new Vector3(0, spawnHeightAfterTeleportation, 0);
+        playerTransform.position = new Vector3(0, (float)GeoidHeights.undulation(d.lat, d.lon) + spawnHeightAfterTeleportation, 0);
     }
 }

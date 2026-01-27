@@ -1,16 +1,19 @@
 using UnityEngine;
 using UnityEngine.UI;
 using GeoidHeightsDotNet;
+using TMPro;
 
 public class WaterLevelSlider : MonoBehaviour
 {
     [Header("References")]
     public Slider mySlider;          
     public Transform objectToMove;
+    public TMP_Text yearLabel;
+
 
     [Header("Settings")]
     public int minYear = 2020;
-    public int maxYear = 2150;
+    public int maxYear = 2500;
 
     void Start()
     {
@@ -71,6 +74,12 @@ public class WaterLevelSlider : MonoBehaviour
 
         Vector3 currentPos = objectToMove.position;
         objectToMove.position = new Vector3(currentPos.x, finalY, currentPos.z);
+
+        if (yearLabel != null)
+        {
+            // rounds to the nearest whole number (e.g. "2045")
+            yearLabel.text = Mathf.RoundToInt(floorYear).ToString();
+        }
 
         // Optional Debug (Can be noisy in Update)
         // Debug.Log($"Year: {currentYear:F1} | Undulation: {undulation:F2} | Rise: {riseInMeters:F3} | Total Y: {finalY}");
