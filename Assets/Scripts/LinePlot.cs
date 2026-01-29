@@ -51,10 +51,10 @@ public class LinePlot : MonoBehaviour
 
         // Tooltip & Legend
         var tooltip = chart.EnsureChartComponent<Tooltip>();
-        tooltip.show = true;
-        tooltip.trigger = Tooltip.Trigger.Axis; // 'Axis' usually feels better for line charts than 'Item'
+        tooltip.show = false;
+        // tooltip.trigger = Tooltip.Trigger.Axis; // 'Axis' usually feels better for line charts than 'Item'
 
-        chart.EnsureChartComponent<Legend>().show = false;
+        // chart.EnsureChartComponent<Legend>().show = false;
 
         // Axes configuration (Preserved your settings)
         var xAxis = chart.EnsureChartComponent<XAxis>();

@@ -49,12 +49,12 @@ public class ScatterPlot : MonoBehaviour
         chart.EnsureChartComponent<Title>().show = true;
         chart.EnsureChartComponent<Title>().text = "Coastal Cities";
 
-        // Tooltip & Legend
+        // // Tooltip & Legend
         var tooltip = chart.EnsureChartComponent<Tooltip>();
-        tooltip.show = true;
-        tooltip.trigger = Tooltip.Trigger.Item;
+        tooltip.show = false;
+        // tooltip.trigger = Tooltip.Trigger.Item;
 
-        chart.EnsureChartComponent<Legend>().show = false;
+        // chart.EnsureChartComponent<Legend>().show = false;
         // Axes
         var xAxis = chart.EnsureChartComponent<XAxis>();
         var yAxis = chart.EnsureChartComponent<YAxis>();

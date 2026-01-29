@@ -90,11 +90,11 @@ public class TopNBarChart : MonoBehaviour
 
         // Tooltip
         var tooltip = chart.EnsureChartComponent<Tooltip>();
-        tooltip.show = true;
-        tooltip.trigger = Tooltip.Trigger.Item;
+        tooltip.show = false;
+        // tooltip.trigger = Tooltip.Trigger.Item;
 
-        // Legend
-        chart.EnsureChartComponent<Legend>().show = false;
+        // // Legend
+        // chart.EnsureChartComponent<Legend>().show = false;
 
         // Axes
         var xAxis = chart.EnsureChartComponent<XAxis>();
