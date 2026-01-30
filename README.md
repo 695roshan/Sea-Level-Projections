@@ -11,13 +11,20 @@ Traditional 2D maps and charts often fail to convey the real-world impact of sea
 - Enable embodied exploration of affected cities  
 - Support education and decision-making in climate resilience planning  
 
+## 📈 Dataset
+- [IPCC AR6 WGI Sea Level Projections](https://www.wdc-climate.de/ui/entry?acronym=IPCC-DDC_AR6_Sup_SLPr_rn_mc585) ([GitHub](https://github.com/Rutgers-ESSP/IPCC-AR6-Sea-Level-Projections), [Paper](https://doi.org/10.7282/00000382))
+- Projections use only processes with assessed medium confidence SSP5-8.5 (see [here](https://www.dkrz.de/en/communication/climate-simulations/cmip6-en/the-ssp-scenarios) for details about ssp scenarios)
+
+- Data preprocessing can be found [here](/Data%20Collection%20and%20Cleaning/)
+
 ## ✨ Features
 
-* Cesium-powered global 3D terrain and buildings
+* Cesium-powered global 3D terrain and buildings for 100 selected cities
 * Sea level projection in VR 
 * Interactive city and year selection
 * Flying and walking navigation modes
 * Charts for getting insights from the data
+
 ## 🛠️ Tech Stack & Requirements
 
 ### Hardware
@@ -62,7 +69,9 @@ Traditional 2D maps and charts often fail to convey the real-world impact of sea
      ```
    * Double-click **Base Scene** to load it
 
-6. **Press Play (▶) in Unity**
+6. ⚠️**Ensure the XR Interaction Simulator game object under the Base Scene is turend off, otherwise it won't work on the HMD** 
+
+7. **Press Play (▶) in Unity**
     > Ensure XR settings are enabled 
 
 ## 🎮 Controls 
