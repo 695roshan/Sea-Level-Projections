@@ -16,23 +16,23 @@ Traditional 2D maps and charts often fail to convey the real-world impact of sea
 * Cesium-powered global 3D terrain and buildings
 * Sea level projection in VR 
 * Interactive city and year selection
-* Fly and walk navigation modes
+* Flying and walking navigation modes
 * Charts for getting insights from the data
 ## 🛠️ Tech Stack & Requirements
 
 ### Hardware
-- **Meta Quest 3**
+- [Meta Quest 3](https://www.meta.com/de/en/quest/quest-3/)
 ### Software
-- **Unity 6000.3.0f1**
-- **Cesium for Unity**
-- **XCharts**
+- [Unity 6000.3.0f1](https://unity.com/releases/editor/whats-new/6000.3.0f1)
+- [Cesium for Unity](https://cesium.com/platform/cesium-for-unity/)
+- [XCharts](https://xcharts-team.github.io/en/)
+- [GeoidHeightsDotNet](https://github.com/GeoidHeightsDotNet/GeoidHeightsDotNet)
 
+### Cesium Account (Important)
 
-## 🌐 Cesium Account Requirement (Important)
+   ⚠️ **This project will not work without a Cesium account and a valid Cesium ion connection.**
 
-⚠️ **This project will not work without a Cesium account and a valid Cesium ion connection.**
-
-To render 3D terrain and buildings, Cesium for Unity requires access to **Cesium ion**.
+   To render 3D terrain and buildings, Cesium for Unity requires access to **Cesium ion**.
 
 ## 🚀 How to Run the Project
 
@@ -64,3 +64,17 @@ To render 3D terrain and buildings, Cesium for Unity requires access to **Cesium
 
 6. **Press Play (▶) in Unity**
     > Ensure XR settings are enabled 
+
+## 🎮 Controls 
+Left hand:
+- Joystick : Move
+- Primary Button : Reset menu
+- Secondary Button : Summon menu
+
+Right hand: 
+- Joystick(y axis) : Change elevation
+- Joystick(x axis) : Rotate view
+- Primary Button : Jump
+- Secondary Button : Toggle fly/walk
+- Back Trigger : Select
+- Side Trigger : Grab
