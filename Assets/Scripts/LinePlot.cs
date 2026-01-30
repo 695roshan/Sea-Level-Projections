@@ -49,10 +49,13 @@ public class LinePlot : MonoBehaviour
         chart.EnsureChartComponent<Title>().show = true;
         chart.EnsureChartComponent<Title>().text = $"Median sea level change (mm) over the years in {cityName}";
 
+<<<<<<< HEAD
         // Tooltip & Legend
         var tooltip = chart.EnsureChartComponent<Tooltip>();
         tooltip.show = false;
         // tooltip.trigger = Tooltip.Trigger.Axis; // 'Axis' usually feels better for line charts than 'Item'
+=======
+>>>>>>> a769d6f (menu flickering fix, haptics, menu reset button, menu autoclose, fixing menu to world coords)
 
         // chart.EnsureChartComponent<Legend>().show = false;
 

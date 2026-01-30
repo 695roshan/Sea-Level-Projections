@@ -88,11 +88,14 @@ public class TopNBarChart : MonoBehaviour
         title.show = true;
         title.text = $"Top {topN} cities - Sea Level Change (mm) in {selectedYear}";
 
+<<<<<<< HEAD
         // Tooltip
         var tooltip = chart.EnsureChartComponent<Tooltip>();
         tooltip.show = false;
         // tooltip.trigger = Tooltip.Trigger.Item;
 
+=======
+>>>>>>> a769d6f (menu flickering fix, haptics, menu reset button, menu autoclose, fixing menu to world coords)
         // // Legend
         // chart.EnsureChartComponent<Legend>().show = false;
 
